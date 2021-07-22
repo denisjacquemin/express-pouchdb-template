@@ -19,4 +19,5 @@
 
 * [how-we-structure-our-express-js-routes](https://medium.com/@sesitamakloe/how-we-structure-our-express-js-routes-58933d02e491)
 * [organizing-express-routes](http://billpatrianakos.me/blog/2015/12/01/organizing-express-routes/)
+* [Example on Github](https://github.com/searsaw/express-routing-example)
 
