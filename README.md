@@ -1,7 +1,18 @@
+# Commands
 ## Start server in DEBUG mode
 
-DEBUG=myapp:* npm start
+./src$ DEBUG=myapp:* npm start
 
+## Build the Docker image with BuildKit
+./$ COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build
+
+## Run the image
+./$ docker-compose up
+
+# Docker & Docker Compose
+
+[Use Node.js with Docker and Docker Compose to improve DX](https://blog.logrocket.com/node-js-docker-improve-dx/)
+[Github repo](https://github.com/geshan/nodejs-docker-express/)
 
 # Routes
 ## Route folder structure

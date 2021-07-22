@@ -17,7 +17,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./routes')(app);
+app.use('/', require('./routes'));
+
+console.log('routes');
+app._router.stack.forEach(function(r) {
+    if (r.route && r.route.path) {
+        console.log(r.route.path)
+    }
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
