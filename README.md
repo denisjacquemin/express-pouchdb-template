@@ -21,3 +21,6 @@
 * [organizing-express-routes](http://billpatrianakos.me/blog/2015/12/01/organizing-express-routes/)
 * [Example on Github](https://github.com/searsaw/express-routing-example)
 
+# Express & CouchDB
+
+* [Connecting and Working with CouchDB with Node & Express](https://www.terlici.com/2015/04/28/couchdb-node-express.html)
