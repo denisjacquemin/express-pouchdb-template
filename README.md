@@ -24,3 +24,6 @@
 # Express & CouchDB
 
 * [Connecting and Working with CouchDB with Node & Express](https://www.terlici.com/2015/04/28/couchdb-node-express.html)
+
+# Creating a per-user Database
+* [Creating a per-user Database](https://gist.github.com/auggernaut/6004888)

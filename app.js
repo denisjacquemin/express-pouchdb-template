@@ -1,11 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const passport = require('passport');
+const session = require('express-session');
 
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var app = express();
+const app = express();
+
+// Passport Config
+require('./config/passport')(passport);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -13,13 +18,27 @@ app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
+
+// Express session
+app.use(
+    session({
+        secret: 'secret',
+        resave: true,
+        saveUninitialized: true
+    })
+);
+
+app.use(session({ secret: "cats" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', require('./routes'));
 
-console.log('routes');
 app._router.stack.forEach(function(r) {
     if (r.route && r.route.path) {
         console.log(r.route.path)

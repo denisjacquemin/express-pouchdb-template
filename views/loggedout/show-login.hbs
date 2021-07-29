@@ -4,10 +4,20 @@
     <legend>Not authenticated</legend>
     <li><a href="/lostpassword">/lostpassword</a></li>
     <li><a href="/register">/register</a></li>
-    <legend>authenticated</legend>
+    {{!-- <legend>authenticated</legend>
     <li><a href="/app">/app (dashboard)</a></li>
     <li><a href="/app/account">/app/account</a></li>
     <li><a href="/app/parameters">/app/parameters</a></li>
-    <li><a href="/app/doc/new">/app/doc/new</a></li>
+    <li><a href="/app/doc/new">/app/doc/new</a></li> --}}
+
+
+{{#each errors}}
+    <div>{{this.msg}}</div>
+{{/each}}
+<form method="POST" action="/">
+    <label for="username">Username</label><input name="username" type="text" autocomplete="off" /><br/>
+    <label for="password">Password</label><input name="password" type="password" autocomplete="off" /><br/>
+    <input type="submit" />
+</form>
 
 </ul>

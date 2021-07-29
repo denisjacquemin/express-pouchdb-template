@@ -3,6 +3,13 @@
   <head>
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    {{!-- <script src="/js/vendor/pouchdb/pouchdb-7.2.1.min.js"></script>
+    <script src="/js/vendor/pouchdb/pouchdb.find.js"></script>
+    <script src="/js/vendor/pouchdb/pouchdb.upsert.min.js"></script>
+    <script src="/js/init-pouchdb.js"></script> --}}
+    {{#each scripts}}
+      <script src="{{script}}"></script>
+    {{/each}}
   </head>
   <body>
     <h1>Before Body</h1>

@@ -1,6 +1,13 @@
 const LoggedInRouter = require("express").Router();
 
-// LoggedInRouter.all('*', requireAuthentication, loadUser);
+LoggedInRouter.use(function(req, res, next) {
+    console.log('check if authenticated');
+    if (true) { // if authenticated
+        next();
+    } // else {
+    //     res.redirect('/')
+    // }
+});
 
 LoggedInRouter.route('/')
     .get(require("./dashboard.js"));
