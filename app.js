@@ -2,7 +2,6 @@ const createError = require('http-errors');
 const express = require('express');
 const passport = require('passport');
 const session = require('express-session');
-
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -13,42 +12,52 @@ const app = express();
 require('./config/passport')(passport);
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(logger('dev'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Express session
-app.use(
-    session({
-        secret: 'secret',
-        resave: true,
-        saveUninitialized: true
-    })
-);
+app.use(cookieParser('secret'));
+app.use(session({
+    cookie: { maxAge: 60000 },
+    saveUninitialized: true,
+    resave: 'true',
+    secret: 'secret'
+}));
 
-app.use(session({ secret: "cats" }));
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// https://gist.github.com/brianmacarthur/a4e3e0093d368aa8e423
+// Custom flash middleware -- from Ethan Brown's book, 'Web Development with Node & Express'
+app.use(function(req, res, next) {
+    // if there's a flash message in the session request, make it available in the response, then delete it
+    res.locals.sessionFlash = req.session.sessionFlash;
+    delete req.session.sessionFlash;
+    next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
+// app.use(function(req, res, next) {
+//     // before every route, attach the flash messages and current user to res.locals
+//     res.locals.alerts = req.flash();
+//     // res.locals.currentUser = req.user;
+//     next();
+// });
+
 app.use('/', require('./routes'));
 
-app._router.stack.forEach(function(r) {
-    if (r.route && r.route.path) {
-        console.log(r.route.path)
-    }
-})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -60,5 +69,7 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
+
+
 
 module.exports = app;

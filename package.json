@@ -4,6 +4,7 @@
     "private": true,
     "scripts": {
         "start": "node ./bin/www",
+        "start:debug": "DEBUG=* node ./bin/www",
         "start:dev": "nodemon ./bin/www"
     },
     "dependencies": {
@@ -14,10 +15,11 @@
         "express-session": "^1.17.2",
         "hbs": "~4.0.4",
         "http-errors": "~1.6.3",
+        "lodash.merge": "^4.6.2",
         "morgan": "~1.9.1",
         "nano": "^9.0.3",
         "passport": "^0.4.1",
         "passport-local": "^1.0.0",
-        "uuid": "^8.3.2"
+        "randexp": "^0.5.3"
     }
 }

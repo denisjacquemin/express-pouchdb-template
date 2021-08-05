@@ -33,23 +33,9 @@ module.exports = (req, res, next) => {
         passport.authenticate('local', {
             successRedirect: '/app',
             failureRedirect: '/',
-            failureFlash: true
+            successFlash: 'Welcome!',
+            failureFlash: true //Setting the failureFlash option to true instructs Passport to flash an error message using the message given by the strategy's verify callback, if any
         })(req, res, next)
-
-        // db.signIn(creds).then(function(resp) {
-        //     res.redirect('/app');
-        // }).catch(function(err) {
-        //     console.log(err);
-        //     errors.push({
-        //         msg: err.message
-        //     });
-        //     res.render('loggedout/show-register', {
-        //         errors,
-        //         username,
-        //         password,
-        //         confirm
-        //     });
-        // });
     }
 
 };

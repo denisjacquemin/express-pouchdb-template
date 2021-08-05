@@ -1,12 +1,8 @@
 <p>hello from show-register.js</p>
-
-{{#each errors}}
-    <div>{{this.msg}}</div>
-{{/each}}
 <form method="POST" action="/register">
-    <label for="username">Username</label><input name="username" type="text" autocomplete="off" /><br/>
-    <label for="password">Password</label><input name="password" type="password" autocomplete="off" /><br/>
-    <label for="confirm">Confirm password</label><input name="confirm" type="confirm" autocomplete="off" /><br/>
+    <label for="username">Username</label><input name="username" type="text" autocomplete="off" value={{username}} /><br/>
+    <label for="password">Password</label><input name="password" type="password" autocomplete="off" value={{password}} /><br/>
+    <label for="confirm">Confirm password</label><input name="confirm" type="confirm" autocomplete="off" value={{confirm}} /><br/>
     <input type="submit" />
 </form>
 <div><a href="/">Already have an account?</a></div>

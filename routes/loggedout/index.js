@@ -1,5 +1,6 @@
 const LoggedOutRoutes = require("express").Router();
 
+
 LoggedOutRoutes
     .route('/')
     .get(require("./show-login.js"))
@@ -14,5 +15,6 @@ LoggedOutRoutes
     .route('/lostpassword')
     .get(require("./show-lostpassword.js"))
     .post(require("./lostpassword.js"));
+
 
 module.exports = LoggedOutRoutes;

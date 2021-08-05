@@ -12,7 +12,18 @@
     {{/each}}
   </head>
   <body>
+
+{{#if sessionFlash.message}}
+    <div class="{{ sessionFlash.type }}">
+        <strong>FLASH!</strong> {{ sessionFlash.message }}
+    </div>
+{{/if}}
+
+
+    <a href="/app/logout">Logout</a>
+
     <h1>Before Body</h1>
+
     {{{body}}}
   </body>
 </html>

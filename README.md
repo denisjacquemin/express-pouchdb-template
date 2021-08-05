@@ -27,3 +27,6 @@
 
 # Creating a per-user Database
 * [Creating a per-user Database](https://gist.github.com/auggernaut/6004888)
+
+# JavaScript Promises and Errors
+* [JavaScript Promises and Errors](https://mrcoles.com/javascript-promises-and-errors/)

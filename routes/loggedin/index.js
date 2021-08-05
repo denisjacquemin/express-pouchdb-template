@@ -12,7 +12,7 @@ LoggedInRouter.use(function(req, res, next) {
 LoggedInRouter.route('/')
     .get(require("./dashboard.js"));
 LoggedInRouter.route('/logout')
-    .post(require("./logout.js"));
+    .get(require("./logout.js"));
 LoggedInRouter.route('/account')
     .get(require("./account.js"));
 LoggedInRouter.route('/parameters')
