@@ -3,39 +3,61 @@ const passport = require("passport");
 
 
 module.exports = (req, res, next) => {
+    console.log('3');
 
-    const {
+    const creds = {
         username,
         password
     } = req.body;
 
-    let errors = [];
+    if (!creds.username || !creds.password) {
 
-    if (!username || !password) {
-        errors.push({
-            msg: "Please enter all fields"
-        });
-    }
-
-    if (errors.length > 0) {
-        res.render('loggedout/show-register', {
-            errors,
-            username,
-            password,
-            confirm
-        });
-    } else {
-        const creds = {
-            username: username,
-            password: password
+        data = {
+            username: creds.username,
+            password: creds.password
         }
-
-        passport.authenticate('local', {
-            successRedirect: '/app',
-            failureRedirect: '/',
-            successFlash: 'Welcome!',
-            failureFlash: true //Setting the failureFlash option to true instructs Passport to flash an error message using the message given by the strategy's verify callback, if any
-        })(req, res, next)
+        return res.renderWithMessage('loggedout/show-login', { data: data }, { type: 'error', text: 'Please enter all fields' })
     }
+
+    passport.authenticate('local', {
+        session: true,
+        successRedirect: '/app',
+        failureFlash: 'Invalid username or password.',
+        failureRedirect: '/',
+        successFlash: 'Welcome!'
+    })(req, res, next);
 
 };
+// function(err, user, info, status) {
+//     if (err) {
+//         // message
+//         data = {
+//             sessionFlash: { type: 'error', message: err },
+//             username: creds.username,
+//             password: creds.password
+//         }
+//         return res.render('loggedout/show-login', { data: data });
+//     }
+//     if (!user) {
+//         data = {
+//             sessionFlash: { type: 'error', message: 'Auth incorrect' },
+//             username: creds.username,
+//             password: creds.password
+//         }
+//         return res.render('loggedout/show-login', { data: data });
+//     }
+//     req.login(user, function(err) {
+//         if (err) {
+//             data = {
+//                 sessionFlash: { type: 'error', message: err },
+//                 username: creds.username,
+//                 password: creds.password
+//             }
+//             return res.render('loggedout/show-login', { data: data });
+//         }
+//         req.session.sessionFlash = { type: 'success', message: 'Welcome!!!' }
+
+//         res.redirect('/app');
+//     });
+
+// })(req, res, next)

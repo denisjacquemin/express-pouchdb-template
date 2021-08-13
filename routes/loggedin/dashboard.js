@@ -2,6 +2,10 @@ module.exports = (req, res) => {
 
     // const errors = req.flash('error');
     // const infos = req.flash('success');
+    console.log('4');
 
-    res.render('loggedin/dashboard', { data: 'My Data' });
+    const data = {
+        user: req.user
+    }
+    res.renderWithMessage('loggedin/dashboard', { data: data }, { type: 'success', text: 'Hello There3' })
 };

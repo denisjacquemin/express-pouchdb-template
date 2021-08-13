@@ -1,8 +1,9 @@
 const LocalStrategy = require('passport-local').Strategy;
-const { nano, usersDB } = require('../services/db');
+const { nano, usersDB, buildUserId } = require('../services/db');
 const bcrypt = require('bcryptjs');
 
-
+// Authenticate User (username/password), user should exist in _users database
+// If authenticated return user object
 module.exports = function(passport) {
     passport.use(new LocalStrategy({
             usernameField: 'username',
@@ -11,40 +12,64 @@ module.exports = function(passport) {
 
         function(username, password, done) {
 
-            usersDB.find({
-                selector: { name: username },
-                fields: ["name", 'password', '_id']
-            })
+            // const db = nano.use('_users')
+            // db.get('org.couchdb.user:jan')
 
-            .then(function(user) {
-                console.log(user);
+            // .then((user) => {
+            //         console.log(user)
+            //     })
+            //     .catch((err) => console.log(err));
+            console.log('in login');
 
-                if (user.bookmark == 'nil') {
-                    return done(null, false, { message: 'User' + username + ' is not registered' });
-                }
-
-                // Match password
-                bcrypt.compare(password, user.docs[0].password, (err, isMatch) => {
-
-                    if (isMatch) {
-                        return done(null, user);
-                    } else {
-                        return done(null, false, { message: 'Password incorrect' });
+            nano.auth(username, password)
+                .then(() => nano.auth('admin', '123456'))
+                .then(() => nano.use('_users').get(buildUserId(username)))
+                .then((user) => done(null, user))
+                .catch((err) => {
+                    switch (err.error) {
+                        case 'unauthorized':
+                            return done(null, false, null);
+                            break;
+                        default:
+                            return done(err);
                     }
                 });
 
-            })
 
-            .catch(function(err) {
-                console.log(err);
-                switch (err.error) {
-                    case 'unauthorized':
-                        return done(null, false, { message: 'Incorrect username password, try again or register.' });
-                        break;
-                    default:
-                        return done(err);
-                }
-            });
+
+            // usersDB.find({
+            //     selector: { name: username },
+            //     fields: ["name", 'password', '_id']
+            // })
+
+            // .then(function(results) {
+
+            //     if (results.bookmark == 'nil') {
+            //         return done(null, false, { message: 'User' + username + ' is not registered' });
+            //     }
+
+            //     // Match password
+            //     bcrypt.compare(password, results.docs[0].password, (err, isMatch) => {
+
+            //         if (isMatch) {
+            //             return done(null, results.docs[0]);
+            //         } else {
+            //             return done(null, false, { message: 'Password incorrect' });
+            //         }
+            //     });
+
+            // })
+
+            // .catch(function(err) {
+            //     console.log(err);
+            //     switch (err.error) {
+            //         case 'unauthorized':
+            //             return done(null, false, { message: 'Incorrect username password, try again or register.' });
+            //             break;
+            //         default:
+            //             return done(err);
+            //     }
+            // });
         }
     ));
 
@@ -59,13 +84,13 @@ module.exports = function(passport) {
             fields: ['name', 'roles']
         })
 
-        .then(function(result) {
+        .then(function(results) {
             // console.log(user)
             // console.log(user.docs[0]._id)
-            if (result.bookmark == 'nil') {
+            if (results.bookmark == 'nil') {
                 return done('User not found', nil);
             }
-            done(null, result.docs[0]); // :-)
+            done(null, results.docs[0]); // :-)
         })
 
         .catch(function(err) {

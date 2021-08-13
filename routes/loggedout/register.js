@@ -23,12 +23,13 @@ module.exports = (req, res) => {
             throw new Error('Password must be at least 6 characters');
         }
     } catch (err) {
-        return res.render('loggedout/show-register', {
+        data = {
             username: username,
             password: password,
             confirm: confirm,
-            sessionFlash: err
-        });
+        }
+
+        return res.renderWithMessage('loggedout/show-register', data, { type: 'error', text: err.message });
     }
 
 
@@ -51,20 +52,28 @@ module.exports = (req, res) => {
 
     .then((data) => linkUserToDB(data.user, data.dbname))
 
-    .then(() => {
-        req.session.sessionFlash = 'Welcome!!'
-        res.redirect('/app')
+    .then((data) => {
+        req.login(data.user, function(err) {
+            if (err) { throw new Error(err); }
+
+            return res.redirectWithMessage('/app', { type: 'success', text: 'Welcome from register!!' })
+        });
     })
 
     // .catch(function(err) {
     //     throw new Error(err);
     // })
     .catch(function(err) {
-        return res.render('loggedout/show-register', {
+
+        data = {
             username: username,
             password: password,
             confirm: confirm,
-            sessionFlash: err
+        }
+
+        return res.renderWithMessage('loggedout/show-register', data, {
+            type: 'error',
+            text: err.message
         });
     });
 

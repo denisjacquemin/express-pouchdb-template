@@ -150,33 +150,36 @@ function addDBPermissions(
 
 
 function linkUserToDB(user, dbname) {
-    const usersDB = nano.use('_users')
 
-    usersDB.find({
-        selector: {
-            name: {
-                $eq: user.name
+    return new Promise(function(resolve, reject) {
+        console.log('then linkUserToDB');
+
+        const usersDB = nano.use('_users');
+
+        usersDB.find({
+            selector: {
+                name: {
+                    $eq: user.name
+                }
+            },
+            // fields: ["name", "_rev"]
+        })
+
+        .then(function(results) {
+            if (results.bookmark === 'nil') {
+                throw new Error('User not found');
             }
-        },
-        // fields: ["name", "_rev"]
-    })
 
-    .then(function(results) {
-
-        if (results.bookmark === 'nil') {
-            throw new Error('User not found');
-        }
-
-        user = results.docs[0]
-
-        user['databases'] = Array.from(new Set([dbname].concat(user.databases || [])))
-        usersDB.insert(user)
-        resolve({ user, dbname })
+            user = results.docs[0];
+            user['databases'] = Array.from(new Set([dbname].concat(user.databases || [])))
+            usersDB.insert(user)
+            resolve({ user, dbname })
+        })
 
         .catch(function(err) {
             reject(err);
-        });
-    })
+        })
+    });
 };
 
 function createDB(user) {
@@ -198,8 +201,6 @@ function createDB(user) {
         nano.db.create(dbname)
 
         .then(function(res) {
-            console.log('return dbname');
-
             return resolve({ user, dbname });
         })
 

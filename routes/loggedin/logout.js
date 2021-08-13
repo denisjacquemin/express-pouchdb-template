@@ -1,4 +1,7 @@
 module.exports = (req, res) => {
     req.logout();
-    res.redirect('/')
+    res.redirectWithMessage('/', {
+        type: 'success',
+        text: 'Bye bye'
+    });
 };

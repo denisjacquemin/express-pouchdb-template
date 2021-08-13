@@ -1,12 +1,14 @@
 const LoggedInRouter = require("express").Router();
 
+
 LoggedInRouter.use(function(req, res, next) {
     console.log('check if authenticated');
-    if (true) { // if authenticated
+
+    if (typeof req.session.passport !== "undefined" && typeof req.session.passport.user !== "undefined") {
         next();
-    } // else {
-    //     res.redirect('/')
-    // }
+    } else {
+        res.redirectWithMessage('/', { type: 'error', text: 'Must be authenticated first' })
+    }
 });
 
 LoggedInRouter.route('/')

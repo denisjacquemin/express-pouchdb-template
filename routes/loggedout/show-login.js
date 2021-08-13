@@ -1,6 +1,12 @@
 module.exports = (req, res) => {
+    console.log('In Show-login routes');
+
 
     var scripts = [{ script: '/js/show-login.js' }];
 
-    res.render('loggedout/show-login', { data: 'My Data', scripts: scripts });
+    // data = {
+    //     sessionFlash: res.locals.sessionFlash
+    // }
+
+    res.render('loggedout/show-login', {});
 };
