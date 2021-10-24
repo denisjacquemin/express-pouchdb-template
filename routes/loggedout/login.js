@@ -1,7 +1,6 @@
 const db = require('../../services/db');
 const passport = require("passport");
 
-
 module.exports = (req, res, next) => {
     console.log('3');
 

@@ -1,7 +1,9 @@
 <p>hello from show-login.js</p>
 
+<p>Translation test : {{ cookiee }} # {{t 'cookie'}}</p>
+
 <ul>
-    <legend>Not authenticated</legend>
+    <legend>{{t 'showlogin.NotAuthenticated'}}</legend>
     <li><a href="/lostpassword">/lostpassword</a></li>
     <li><a href="/register">/register</a></li>
     {{!-- <legend>authenticated</legend>
@@ -9,9 +11,7 @@
     <li><a href="/app/account">/app/account</a></li>
     <li><a href="/app/parameters">/app/parameters</a></li>
     <li><a href="/app/doc/new">/app/doc/new</a></li> --}}
-
-
-
+</ul>
 
 <form method="POST" action="/">
     <label for="username">Username</label><input name="username" type="text" autocomplete="off" value={{data.username}} /><br/>

@@ -8,5 +8,5 @@ module.exports = (req, res) => {
     //     sessionFlash: res.locals.sessionFlash
     // }
 
-    res.render('loggedout/show-login', {});
+    res.render('loggedout/show-login', { cookiee: req.t('bacon') });
 };
