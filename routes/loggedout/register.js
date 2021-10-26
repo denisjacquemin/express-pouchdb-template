@@ -1,6 +1,6 @@
 // good example https://github.com/EranGrin/couchDB-Node-Passport-Login/blob/master/routes/users.js
 
-const { db, usersDB, createUser, createDB, addDBPermissions, linkUserToDB } = require('../../services/db');
+const { createUser, createDB, addDBPermissions, linkUserToDB } = require('../../services/db');
 
 module.exports = (req, res) => {
 

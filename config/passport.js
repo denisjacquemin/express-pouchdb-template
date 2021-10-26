@@ -20,7 +20,7 @@ module.exports = function(passport) {
             //     })
             //     .catch((err) => console.log(err));
             console.log('in login');
-
+            debugger
             nano.auth(username, password)
                 .then(() => nano.auth('admin', '123456'))
                 .then(() => nano.use('_users').get(buildUserId(username)))

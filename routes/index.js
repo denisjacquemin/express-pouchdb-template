@@ -3,7 +3,6 @@ var routes = require("express").Router();
 routes.use(function(req, res, next) {
     console.log('in routes/index.js');
     var exists = req.i18n.exists('cookie')
-    debugger;
     next();
 });
 
